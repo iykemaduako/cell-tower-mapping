@@ -1,0 +1,102 @@
+{
+  "cells": [
+    {
+      "cell_type": "code",
+      "source": [
+        "import time\r\n",
+        "from pathlib import Path\r\n",
+        "\r\n",
+        "import matplotlib.pyplot as plt\r\n",
+        "import numpy as np\r\n",
+        "import torch\r\n",
+        "import torch.nn as nn\r\n",
+        "import torch.nn.functional as F\r\n",
+        "import torchvision\r\n",
+        "from sklearn.metrics import accuracy_score, confusion_matrix, roc_curve, auc, classification_report\r\n",
+        "from torch.utils.data.dataloader import DataLoader\r\n",
+        "from torch.utils.tensorboard import SummaryWriter\r\n",
+        "from torchvision import transforms\r\n",
+        "from torchvision.datasets import ImageFolder\r\n",
+        "\r\n",
+        "# Modify sys path to import top-level modules\r\n",
+        "import sys\r\n",
+        "import itertools\r\n",
+        "sys.path.append(\"..\")\r\n",
+        "from school.utils import (\r\n",
+        "    delete_data_folder_structure,\r\n",
+        "    show_image,\r\n",
+        "    parse_class_report,\r\n",
+        "    split_folder_of_images,\r\n",
+        ")\r\n",
+        "from models.mobilenetv2_model import MobileNetV2Model\r\n",
+        "from models.mobilenetv2_antialias_model import MobileNetV2ModelAntiAlias\r\n",
+        "from models.resnet_antialias_model import ResNetModelAntiAlias\r\n",
+        "from models.resnet_model import ResNetModel\r\n",
+        "\r\n",
+        "# Fix random seed for reproducibility\r\n",
+        "seed = 9102\r\n",
+        "np.random.seed(seed)\r\n",
+        "torch.manual_seed(seed)\r\n",
+        "torch.backends.cudnn.deterministic = True\r\n",
+        "\r\n",
+        "# Global device config\r\n",
+        "device = torch.device(\"cuda:0\" if torch.cuda.is_available() else \"cpu\")\r\n",
+        "print(\"Using GPU for acceleration\") if torch.cuda.is_available() else print(\r\n",
+        "    \"Using CPU for computation\"\r\n",
+        ")\r\n",
+        "\r\n",
+        "# Image folder path (zoom level 18)\r\n",
+        "base_path = Path(\"../datasets_2\")\r\n",
+        "shuffle_all_images = False\r\n",
+        "pretrain_model = [\"resnet18\", \"resnet18_aa\", \"mobilenetv2\", \"mobilenetv2_aa\"][2]\r\n",
+        "\r\n",
+        "# Output files\r\n",
+        "saved_model_filename = f\"school_classifier_model_{pretrain_model}.pt\"\r\n",
+        "labels_mapping_filename = f\"school_classifier_labels_{pretrain_model}.pkl\"\r\n",
+        "\r\n",
+        "# Data split\r\n",
+        "train_prop = 0.8  # (taken from ALL the data)\r\n",
+        "valid_prop = 0.2  # (taken only from TRAIN)\r\n",
+        "\r\n",
+        "# Hyperparameters\r\n",
+        "batch_size = 16\r\n",
+        "lr = 0.0001\r\n",
+        "epochs = 25\r\n",
+        "\r\n",
+        "# Tensorboard: writer will output to ./runs/ directory by default\r\n",
+        "comment = f\"_T{round(train_prop*100)}_V{round(valid_prop*100)}_BS{batch_size}_LR{round(lr*10000)}_{pretrain_model}\"\r\n",
+        "writer = SummaryWriter(comment=comment)"
+      ],
+      "outputs": [],
+      "execution_count": null,
+      "metadata": {}
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3-azureml",
+      "language": "python",
+      "display_name": "Python 3.6 - AzureML"
+    },
+    "language_info": {
+      "name": "python",
+      "version": "3.6.9",
+      "mimetype": "text/x-python",
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "pygments_lexer": "ipython3",
+      "nbconvert_exporter": "python",
+      "file_extension": ".py"
+    },
+    "kernel_info": {
+      "name": "python3-azureml"
+    },
+    "nteract": {
+      "version": "nteract-front-end@1.0.0"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 2
+}

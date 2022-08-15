@@ -1,20 +1,18 @@
-![logo_unicef](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/UNICEF_Logo.svg/1000px-UNICEF_Logo.svg.png)
----
 
 This repository contains all the necessary code to:
-- Train an image classifier using [PyTorch](https://pytorch.org/) to detect schools in high-resolution satellite imagery
+- Train an image classifier using [PyTorch](https://pytorch.org/) to detect cell towers in high-resolution satellite imagery
 - Explore model's outputs explanations using Gradient Class Activation Maps ([grad-CAM](https://github.com/vickyliin/gradcam_plus_plus-pytorch)) and SHapley Additive exPlanations ([SHAP](https://github.com/slundberg/shap))
-- Extract the last feature vectors from the Convolutional Neural Network trained model and cluster them to find underlying school patterns
+- Extract the last feature vectors from the Convolutional Neural Network trained model and cluster them to find underlying cell tower patterns
 - Also, it's possible to georeferenciate some outputs to be imported into a Geographic Information System (GIS) for an easy visualization of the spatial data
 
-## School classifier
+## cell tower classifier
 
 The classifier will be capable of classify an image in two different categories:
 
-- **school**: image with a school building
-- **not_school**: image without a school building
+- **cell tower**: image with a cell tower 
+- **not_cell tower**: image without a cell tower 
 
-The goal of the [original project](https://github.com/developmentseed/unicef-schools/) was to train an image classifier to detect if a school was present in a high-resolution satellite imagery. We migrated the training part of the original code that was done with Keras + Tensorflow to Pytorch. 
+The goal of the [original project](https://github.com/developmentseed/unicef-cell towers/) was to train an image classifier to detect if a cell tower was present in a high-resolution satellite imagery. We migrated the training part of the original code that was done with Keras + Tensorflow to Pytorch. 
 
 ## Installation
 
@@ -45,10 +43,9 @@ You are ready to go!
 
 The scripts below can be used as an interactive Jupyter Notebook using [VScode](https://code.visualstudio.com/docs/python/jupyter-support-py) capabilities.
 
-1. The file `training/school_classifier_training.py` is a python script that trains the classifier, save the best model and send some information to tensorboard. 
-2. The file `explainability/explainable_school_classifier_gradcam_gbp.py` is a python script that takes the best saved trained model stored in step 1 and explains its outputs using grad-CAM.
-3. The file `explainability/explainable_school_classifier_shap.py` is a python script that takes the best saved trained model stored in step 1 and explains its outputs using SHAP values. 
-4. The file `clustering/feature_layer_clustering.py` is a python script that takes a selected model, forward all the images through the model and extract their last feature vector to create clusters.
+1. The file `training/cell_classifier_training.py` is a python script that trains the classifier, save the best model and send some information to tensorboard. 
+2. The file `explainability/explainable_cell_classifier_gradcam_gbp.py` is a python script that takes the best saved trained model stored in step 1 and explains its outputs using grad-CAM.
+3. The file `explainability/explainable_cell_classifier_shap.py` is a python script that takes the best saved trained model stored in step 1 and explains its outputs using SHAP values. 
 
 ### Tensorboard
 

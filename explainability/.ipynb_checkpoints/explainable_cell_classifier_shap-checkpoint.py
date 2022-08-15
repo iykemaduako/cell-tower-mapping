@@ -1,5 +1,5 @@
 # %% [markdown]
-# # Explainability of the school / not_school classifier
+# # Explainability of the cell / not_cell classifier
 
 # %%
 import numpy as np
@@ -122,7 +122,7 @@ de_shap_values, de_indexes = de.shap_values(
 
 # %%
 # Get the names for the classes
-de_index_names = np.vectorize(lambda x: ["not-school", "school"][x])(
+de_index_names = np.vectorize(lambda x: ["not-cell", "cell][x])(
     de_indexes.detach().cpu()
 )
 
@@ -174,7 +174,7 @@ for category in ["urban", "not_urban"]:
             # Get model predictions
             preds, probs = images_to_probs(model, test_images, device)
 
-            # Filter only "school" predictions
+            # Filter only "cell" predictions
             img_index = np.where(np.array(preds) == 1)[0]
 
             if len(img_index) > 0:
@@ -236,16 +236,16 @@ for category in ["urban", "not_urban"]:
 # %%
 # Sum SHAP values over the three channels (RGB)
 shap_raster_sum_bands(
-    input_folder=Path("../datasets_2/raster_shap/urban/school/resnet18/tp/")
+    input_folder=Path("../datasets_2/raster_shap/urban/cell/resnet18/tp/")
 )
 shap_raster_sum_bands(
-    input_folder=Path("../datasets_2/raster_shap/urban/not_school/resnet18/fp/")
+    input_folder=Path("../datasets_2/raster_shap/urban/not_cell/resnet18/fp/")
 )
 shap_raster_sum_bands(
-    input_folder=Path("../datasets_2/raster_shap/not_urban/school/resnet18/tp/")
+    input_folder=Path("../datasets_2/raster_shap/not_urban/cell/resnet18/tp/")
 )
 shap_raster_sum_bands(
-    input_folder=Path("../datasets_2/raster_shap/not_urban/not_school/resnet18/fp/")
+    input_folder=Path("../datasets_2/raster_shap/not_urban/not_cell/resnet18/fp/")
 )
 
 

@@ -1,5 +1,5 @@
 # %% [markdown]
-# # Explainability of the school / not_school classifier
+# # Explainability of the cell / not_cell classifier
 
 # %%
 import numpy as np
